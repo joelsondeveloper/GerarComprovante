@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <<title>Gerador de Comprovantes Online - Crie Seu Comprovante Fácil e Rápido</title>
+    <meta name="description" content="Gere comprovantes de pagamento online de forma rápida e fácil. Insira seus dados, escolha a forma de pagamento e baixe seu recibo em poucos segundos!">
+<meta name="keywords" content="gerador de comprovante, recibo online, comprovante de pagamento, comprovante digital">
+<meta name="author" content="Gerador de Comprovante online">
+
+
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "Gerador de Comprovantes Online",
+          "description": "Crie comprovantes de pagamento online de forma rápida e segura.",
+          "url": "https://seusite.com",
+          "author": {
+            "@type": "Person",
+            "name": "Joelson developer",
+          }
+        }
+        </script>        
+</head>
+<body>
+    <header class="header">
+        <h1>Gerador Comprovante</h1>
+    </header>
+
+    <main class="main">
+        <h2>gere seu comprovante online de forma rápida</h2>
+
+        <form id="comprovanteForm" class="form-main">
+
+            <label for="nome">Nome:
+            <input type="text" id="nome" required placeholder="João Silva" class="input-required"></label>
+
+            <label for="pago">Valor pago:
+            <input type="number" id="pago" required placeholder="20.00" class="input-required" step="0.01"></label>
+
+            <label for="data">Data do pagamento:
+            <input type="date" id="data" required class="input-required"></label>
+
+            <label for="forma">Forma do pagamento:
+                <select id="forma" required class="select-required">
+                    <option value="">Selecione...</option>
+                    <option value="dinheiro">Dinheiro</option>
+                    <option value="credito">Crédito</option>
+                    <option value="debito">Débito</option>
+                    <option value="pix">Pix</option>
+                </select>
+            </label>
+
+            <label for="numeroT">Numero de transação(Opcional):
+                <input type="text" id="numeroT" placeholder="1234567890"></label>
+            </label>
+
+            <label for="destino">Destino:
+                <input type="text" id="destino" required placeholder="mateus cunha" class="input-required"></label>
+
+            <label for="referente">motivo do pagamento:
+                <input type="text" id="referente" required placeholder="compra de roupa" class="input-required"></label>
+
+            <label for="obs">Observações(Opcional):</label>
+                <textarea id="obs" rows="4" placeholder="pagamento para o serviço de reparo" class="textarea"></textarea>
+
+            <label for="empresa">instituição/dono:
+                <input type="text" id="empresa" required placeholder="João Silva LTDA" class="input-required"></label>
+                
+            <label for="cnpj-des">CNPJ/CPF do Destino(Opcional):
+                <input type="text" id="cnpj-des" placeholder="123.456.789-00" class="input-required"></label>
+
+            <label for="cnpj-comp">CNPJ/CPF do Comprador(Opcional):
+                <input type="text" id="cnpj-comp" placeholder="123.456.789-00" class="input-required">
+            </label>
+                
+            
+
+            <button type="submit" class="btn-enviar">Gerar Comprovante</button>
+        </form>
+
+        <div id="preview-container" class="hidden">
+            <h2>Pré-visualização do Comprovante</h2>
+            <iframe id="pdf-preview" width="100%" height="500px"></iframe>
+            <button id="download-btn" class="btn-enviar">Baixar Comprovante</button>
+        </div>
+    </main>
+</body>
+</html>
