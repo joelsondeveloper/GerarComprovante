@@ -3,7 +3,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const previewContainer = document.getElementById("preview-container");
     const pdfPreview = document.getElementById("pdf-preview");
     const downloadBtn = document.getElementById("download-btn");
+    const logoInput = document.getElementById("logo");
+    const logoPreview = document.getElementById("preview-logo");
     let pdfBlob = null;
+    let logoBase64 = null; // Para armazenar a imagem em Base64
+
+    // Atualiza a pré-visualização da logo ao selecionar um arquivo
+    logoInput.addEventListener("change", function () {
+        const file = logoInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                logoPreview.src = e.target.result;
+                logoPreview.classList.remove("hidden"); // Mostra a imagem
+                logoBase64 = e.target.result; // Salva a logo em Base64 para uso no PDF
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -29,36 +47,49 @@ document.addEventListener("DOMContentLoaded", function () {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(14);
-        doc.setTextColor(50, 50, 50);
+        let yPosition = 20; // Posição inicial do texto
 
+        // Se houver logo, adiciona ao topo do PDF
+        if (logoBase64) {
+            doc.addImage(logoBase64, "PNG", 80, yPosition, 50, 30); // Centraliza a logo (largura 50px)
+            yPosition += 40; // Move a posição para baixo após a logo
+        }
+
+        // Centraliza o título
         doc.setFont("helvetica", "bold");
         doc.setFontSize(18);
-        doc.text("Comprovante de Pagamento", 20, 20);
-        doc.line(20, 25, 190, 25);
+        const title = "Comprovante de Pagamento";
+        const titleWidth = doc.getTextWidth(title);
+        const pageWidth = doc.internal.pageSize.width;
+        doc.text(title, (pageWidth - titleWidth) / 2, yPosition);
+        doc.line(20, yPosition + 5, 190, yPosition + 5);
+        yPosition += 20;
 
+        // Adiciona os dados do comprovante
         doc.setFont("helvetica", "normal");
         doc.setFontSize(12);
-        doc.text(`Pagador: ${nome}`, 20, 40);
-        doc.text(`Valor Pago: R$ ${valorPago}`, 20, 50);
-        doc.text(`Data do Pagamento: ${data}`, 20, 60);
-        doc.text(`Forma de Pagamento: ${forma}`, 20, 70);
-        doc.text(`Número de Transação: ${numeroT}`, 20, 80);
-        doc.text(`Destino: ${destino}`, 20, 90);
-        doc.text(`Referente a: ${referente}`, 20, 100);
-        doc.text(`Observações: ${observacoes}`, 20, 110, { maxWidth: 170 });
+        doc.text(`Pagador: ${nome}`, 20, yPosition);
+        doc.text(`Valor Pago: R$ ${valorPago}`, 20, yPosition + 10);
+        doc.text(`Data do Pagamento: ${data}`, 20, yPosition + 20);
+        doc.text(`Forma de Pagamento: ${forma}`, 20, yPosition + 30);
+        doc.text(`Número de Transação: ${numeroT}`, 20, yPosition + 40);
+        doc.text(`Destino: ${destino}`, 20, yPosition + 50);
+        doc.text(`Referente a: ${referente}`, 20, yPosition + 60);
+        doc.text(`Observações: ${observacoes}`, 20, yPosition + 70, { maxWidth: 170 });
 
+        // Informações fiscais
+        yPosition += 90;
         doc.setFontSize(10);
-        doc.text("--- Detalhes Fiscais ---", 20, 130);
-        doc.text(`Instituição/Dono: ${empresa}`, 20, 140);
-        doc.text(`CNPJ/CPF do Destino: ${cnpjDes}`, 20, 150);
-        doc.text(`CNPJ/CPF do Comprador: ${cnpjComp}`, 20, 160);
+        doc.text("--- Detalhes Fiscais ---", 20, yPosition);
+        doc.text(`Instituição/Dono: ${empresa}`, 20, yPosition + 10);
+        doc.text(`CNPJ/CPF do Destino: ${cnpjDes}`, 20, yPosition + 20);
+        doc.text(`CNPJ/CPF do Comprador: ${cnpjComp}`, 20, yPosition + 30);
 
-        doc.line(20, 170, 190, 170);
+        doc.line(20, yPosition + 40, 190, yPosition + 40);
         doc.setFontSize(10);
-        doc.text("Comprovante gerado automaticamente", 20, 180);
+        doc.text("Comprovante gerado automaticamente", 20, yPosition + 50);
 
+        // Gera o PDF e exibe a prévia
         const pdfOutput = doc.output("blob");
         pdfBlob = URL.createObjectURL(pdfOutput);
 

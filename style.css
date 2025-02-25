@@ -56,6 +56,12 @@ input{
     background-color: #fcf8f8;
 }
 
+.preview-logo{
+    max-width: 150px;
+    display: block;
+    margin-top: 1rem;
+}
+
 .select-required{
     padding: .5rem;
     border-radius: 5px;

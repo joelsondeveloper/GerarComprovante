@@ -86,6 +86,11 @@
 
             <label for="empresa">instituição/dono:
                 <input type="text" id="empresa" required placeholder="João Silva LTDA" class="input-required"></label>
+
+            <label for="logo">logo da empresa(Opcional):
+                <input type="file" id="logo" accept="image/png, image/jpeg">
+                <img id="preview-logo" alt="Logo da Empresa" class="preview-logo hidden">
+            </label>
                 
             <label for="cnpj-des">CNPJ/CPF do Destino(Opcional):
                 <input type="text" id="cnpj-des" placeholder="123.456.789-00" class="input-required"></label>
@@ -101,7 +106,7 @@
 
         <div id="preview-container" class="hidden">
             <h2>Pré-visualização do Comprovante</h2>
-            <iframe id="pdf-preview" width="100%" height="500px"></iframe>
+            <embed id="pdf-preview" width="100%" height="500px" type="application/pdf">
             <button id="download-btn" class="btn-enviar">Baixar Comprovante</button>
         </div>
     </main>
