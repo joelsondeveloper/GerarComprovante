@@ -86,6 +86,16 @@ input{
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.btn-enviar:hover{
+    outline: 1px solid black;
+    
+}
+
+.btn-enviar:focus{
+    background-color: rgb(1, 39, 77);
 }
 
 .hidden{

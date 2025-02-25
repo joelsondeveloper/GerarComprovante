@@ -1,4 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const dataInput = document.getElementById("data");
+
+    if (dataInput) {
+        // Obtém a data atual no formato YYYY-MM-DD
+        const hoje = new Date();
+        const ano = hoje.getFullYear();
+        const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+        const dia = String(hoje.getDate()).padStart(2, "0");
+        const dataFormatada = `${ano}-${mes}-${dia}`;
+
+        // Define a data no input
+        dataInput.value = dataFormatada;
+        console.log("Data inicial definida como:", dataInput.value);
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("comprovanteForm");
     const previewContainer = document.getElementById("preview-container");
     const pdfPreview = document.getElementById("pdf-preview");
@@ -7,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoPreview = document.getElementById("preview-logo");
     let pdfBlob = null;
     let logoBase64 = null; // Para armazenar a imagem em Base64
+
+
 
     // Atualiza a pré-visualização da logo ao selecionar um arquivo
     logoInput.addEventListener("change", function () {
@@ -38,6 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const empresa = document.getElementById("empresa").value;
         const cnpjDes = document.getElementById("cnpj-des").value || "Não informado";
         const cnpjComp = document.getElementById("cnpj-comp").value || "Não informado";
+
+
+
 
         // Gera o comprovante em PDF
         gerarPDF(nome, valorPago, data, forma, numeroT, destino, referente, observacoes, empresa, cnpjDes, cnpjComp);
@@ -93,11 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const pdfOutput = doc.output("blob");
         pdfBlob = URL.createObjectURL(pdfOutput);
 
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            window.open(pdfBlob);
-        } else {
-            pdfPreview.src = pdfBlob;
-        }
+        pdfPreview.src = pdfBlob;
         previewContainer.classList.remove("hidden");
     }
 
