@@ -93,7 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const pdfOutput = doc.output("blob");
         pdfBlob = URL.createObjectURL(pdfOutput);
 
-        pdfPreview.src = pdfBlob;
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            window.open(pdfBlob);
+        } else {
+            pdfPreview.src = pdfBlob;
+        }
         previewContainer.classList.remove("hidden");
     }
 
